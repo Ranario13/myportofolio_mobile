@@ -44,3 +44,4 @@ Bagian yang dibantu:
 
 - Analisis struktur proyek Flutter dan pencocokan implementasi dengan checklist tugas.
 - Penerapan atribut Color pada model ItemHomepage dan penggunaan warna berbeda pada setiap ItemCard.
+- Pembaruan widget test untuk memverifikasi informasi pemilik, tombol portfolio, dan pesan SnackBar.
