@@ -25,6 +25,26 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
     'Other',
   ];
 
+  String? _requiredValidator(String? value, String label) {
+    if (value == null || value.trim().isEmpty) {
+      return '$label tidak boleh kosong.';
+    }
+    return null;
+  }
+
+  String? _projectLinkValidator(String? value) {
+    final link = value?.trim() ?? '';
+    if (link.isEmpty) {
+      return null;
+    }
+
+    final uri = Uri.tryParse(link);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
+      return 'Masukkan tautan yang valid, misalnya https://contoh.com.';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,10 +74,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                     });
                   },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Nama proyek tidak boleh kosong!';
-                    }
-                    return null;
+                    return _requiredValidator(value, 'Nama proyek');
                   },
                 ),
               ),
@@ -77,10 +94,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                     });
                   },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Deskripsi proyek tidak boleh kosong!';
-                    }
-                    return null;
+                    return _requiredValidator(value, 'Deskripsi proyek');
                   },
                 ),
               ),
@@ -120,6 +134,9 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                       _technologies = value;
                     });
                   },
+                  validator: (value) {
+                    return _requiredValidator(value, 'Teknologi');
+                  },
                 ),
               ),
 
@@ -136,6 +153,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                       _projectLink = value;
                     });
                   },
+                  validator: _projectLinkValidator,
                 ),
               ),
 
@@ -175,6 +193,13 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                                   onPressed: () {
                                     Navigator.pop(context);
                                     _formKey.currentState!.reset();
+                                    setState(() {
+                                      _projectName = '';
+                                      _description = '';
+                                      _category = _categories.first;
+                                      _technologies = '';
+                                      _projectLink = '';
+                                    });
                                   },
                                   child: const Text('OK'),
                                 ),
