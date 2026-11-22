@@ -16,17 +16,43 @@ void main() {
     expect(find.text('Logout'), findsOneWidget);
   });
 
-  testWidgets('menampilkan SnackBar sesuai tombol yang ditekan', (
+  testWidgets('membuka form dari kartu Tambah Proyek', (
     WidgetTester tester,
   ) async {
     await tester.pumpWidget(const MyApp());
 
     await tester.tap(find.text('Tambah Proyek'));
-    await tester.pump();
+    await tester.pumpAndSettle();
+
+    expect(find.text('Add Project Form'), findsOneWidget);
+  });
+
+  testWidgets('membuka form dari drawer', (WidgetTester tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.byTooltip('Open navigation menu'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Add Project'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Add Project Form'), findsOneWidget);
+  });
+
+  testWidgets('menampilkan error saat field wajib kosong', (
+    WidgetTester tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.text('Tambah Proyek'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
 
     expect(
-      find.text('Kamu telah menekan tombol Tambah Proyek!'),
+      find.text('Nama proyek tidak boleh kosong.'),
       findsOneWidget,
     );
+    expect(find.text('Deskripsi proyek tidak boleh kosong.'), findsOneWidget);
+    expect(find.text('Teknologi tidak boleh kosong.'), findsOneWidget);
   });
 }

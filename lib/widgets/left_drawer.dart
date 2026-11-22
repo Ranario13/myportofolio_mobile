@@ -23,26 +23,28 @@ class LeftDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'My Portfolio',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'My Portfolio',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Explore personal projects and experiences!',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.white,
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Explore personal projects and experiences!',
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           ListTile(
