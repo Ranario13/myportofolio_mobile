@@ -5,6 +5,15 @@ import 'package:myportofolio_mobile/screens/project_form.dart';
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
+  void _openProjectForm(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ProjectFormPage(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -51,14 +60,7 @@ class LeftDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Add Project'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ProjectFormPage(),
-                ),
-              );
-            },
+            onTap: () => _openProjectForm(context),
           ),
         ],
       ),
