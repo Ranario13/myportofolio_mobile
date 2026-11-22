@@ -25,18 +25,41 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
     'Other',
   ];
 
+  String? _requiredValidator(String? value, String label) {
+    if (value == null || value.trim().isEmpty) {
+      return '$label tidak boleh kosong.';
+    }
+    return null;
+  }
+
+  String? _projectLinkValidator(String? value) {
+    final link = value?.trim() ?? '';
+    if (link.isEmpty) {
+      return null;
+    }
+
+    final uri = Uri.tryParse(link);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) {
+      return 'Masukkan tautan yang valid, misalnya https://contoh.com.';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Project Form'),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
       drawer: const LeftDrawer(),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom + 16,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -54,10 +77,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                     });
                   },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Nama proyek tidak boleh kosong!';
-                    }
-                    return null;
+                    return _requiredValidator(value, 'Nama proyek');
                   },
                 ),
               ),
@@ -77,10 +97,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                     });
                   },
                   validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return 'Deskripsi proyek tidak boleh kosong!';
-                    }
-                    return null;
+                    return _requiredValidator(value, 'Deskripsi proyek');
                   },
                 ),
               ),
@@ -120,6 +137,9 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                       _technologies = value;
                     });
                   },
+                  validator: (value) {
+                    return _requiredValidator(value, 'Teknologi');
+                  },
                 ),
               ),
 
@@ -136,6 +156,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                       _projectLink = value;
                     });
                   },
+                  validator: _projectLinkValidator,
                 ),
               ),
 
@@ -145,7 +166,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.indigo,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
                     ),
                     onPressed: () {
@@ -175,6 +196,13 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
                                   onPressed: () {
                                     Navigator.pop(context);
                                     _formKey.currentState!.reset();
+                                    setState(() {
+                                      _projectName = '';
+                                      _description = '';
+                                      _category = _categories.first;
+                                      _technologies = '';
+                                      _projectLink = '';
+                                    });
                                   },
                                   child: const Text('OK'),
                                 ),
