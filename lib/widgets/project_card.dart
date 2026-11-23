@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
+import 'package:myportofolio_mobile/screens/skill_form.dart';
 
 class ItemHomepage {
   final String name;
@@ -23,6 +25,22 @@ class ItemCard extends StatelessWidget {
     );
   }
 
+  void _openForm(BuildContext context) {
+    if (item.name == 'Tambah Proyek') {
+      _openProjectForm(context);
+    } else if (item.name == 'Skill') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const SkillFormPage()),
+      );
+    } else if (item.name == 'Experience') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -32,8 +50,10 @@ class ItemCard extends StatelessWidget {
       child: InkWell(
         // Aksi ketika kartu ditekan oleh pengguna.
         onTap: () {
-          if (item.name == 'Tambah Proyek') {
-            _openProjectForm(context);
+          if (item.name == 'Tambah Proyek' ||
+              item.name == 'Skill' ||
+              item.name == 'Experience') {
+            _openForm(context);
             return;
           }
 

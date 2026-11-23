@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
+import 'package:myportofolio_mobile/screens/skill_form.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -11,6 +13,20 @@ class LeftDrawer extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => const ProjectFormPage(),
       ),
+    );
+  }
+
+  void _openSkillForm(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SkillFormPage()),
+    );
+  }
+
+  void _openExperienceForm(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
     );
   }
 
@@ -63,6 +79,16 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Add Project'),
             onTap: () => _openProjectForm(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.star_outline),
+            title: const Text('Skill'),
+            onTap: () => _openSkillForm(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.work_outline),
+            title: const Text('Experience'),
+            onTap: () => _openExperienceForm(context),
           ),
         ],
       ),
