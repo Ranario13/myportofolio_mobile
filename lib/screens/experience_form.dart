@@ -10,9 +10,6 @@ class ExperienceFormPage extends StatefulWidget {
 
 class _ExperienceFormPageState extends State<ExperienceFormPage> {
   final _formKey = GlobalKey<FormState>();
-  String _title = '';
-  String _description = '';
-  String _category = '';
 
   void _saveExperience() {
     if (!_formKey.currentState!.validate()) {
@@ -25,11 +22,6 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
         const SnackBar(content: Text('Experience berhasil ditambahkan')),
       );
     _formKey.currentState!.reset();
-    setState(() {
-      _title = '';
-      _description = '';
-      _category = '';
-    });
   }
 
   String? _requiredValidator(String? value, String label) {
@@ -59,21 +51,18 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
               _buildTextField(
                 label: 'Title',
                 hint: 'e.g. Mobile Developer Intern',
-                onChanged: (value) => _title = value,
                 validator: (value) => _requiredValidator(value, 'Title'),
               ),
               _buildTextField(
                 label: 'Description',
                 hint: 'Describe this experience',
                 maxLines: 4,
-                onChanged: (value) => _description = value,
                 validator: (value) =>
                     _requiredValidator(value, 'Description'),
               ),
               _buildTextField(
                 label: 'Category',
                 hint: 'e.g. Internship',
-                onChanged: (value) => _category = value,
                 validator: (value) => _requiredValidator(value, 'Category'),
               ),
               Padding(
@@ -93,7 +82,6 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
   Widget _buildTextField({
     required String label,
     required String hint,
-    required ValueChanged<String> onChanged,
     required FormFieldValidator<String> validator,
     int maxLines = 1,
   }) {
@@ -106,7 +94,6 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
           hintText: hint,
           border: const OutlineInputBorder(),
         ),
-        onChanged: onChanged,
         validator: validator,
       ),
     );
