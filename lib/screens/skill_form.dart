@@ -57,8 +57,7 @@ class _SkillFormPageState extends State<SkillFormPage> {
                 label: 'Description',
                 hint: 'Describe this skill',
                 maxLines: 4,
-                validator: (value) =>
-                    _requiredValidator(value, 'Description'),
+                validator: (value) => _requiredValidator(value, 'Description'),
               ),
               _buildTextField(
                 label: 'Category',

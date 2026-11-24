@@ -157,10 +157,7 @@ class _ProjectFormPageState extends State<ProjectFormPage> {
               TextFormField(
                 controller: _imageUrl,
                 keyboardType: TextInputType.url,
-                decoration: _decoration(
-                  'Project Image URL',
-                  hint: 'Opsional',
-                ),
+                decoration: _decoration('Project Image URL', hint: 'Opsional'),
                 validator: _optionalUrl,
               ),
               if (_error != null) ...[

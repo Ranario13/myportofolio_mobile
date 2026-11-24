@@ -67,9 +67,7 @@ class ItemCard extends StatelessWidget {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  authState.isLoggedIn
-                      ? 'Logout gagal.'
-                      : 'Logout berhasil.',
+                  authState.isLoggedIn ? 'Logout gagal.' : 'Logout berhasil.',
                 ),
               ),
             );

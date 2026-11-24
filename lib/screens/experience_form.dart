@@ -57,8 +57,7 @@ class _ExperienceFormPageState extends State<ExperienceFormPage> {
                 label: 'Description',
                 hint: 'Describe this experience',
                 maxLines: 4,
-                validator: (value) =>
-                    _requiredValidator(value, 'Description'),
+                validator: (value) => _requiredValidator(value, 'Description'),
               ),
               _buildTextField(
                 label: 'Category',
