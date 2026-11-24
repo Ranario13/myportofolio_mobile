@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
-import 'package:myportofolio_mobile/screens/experience_form.dart';
 import 'package:myportofolio_mobile/screens/skill_form.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
+import 'package:myportofolio_mobile/utils/auth_guard.dart';
+import 'package:provider/provider.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
 
-  void _openProjectForm(BuildContext context) {
-    Navigator.push(
+  Future<void> _openProjectForm(BuildContext context) async {
+    if (!await ensureLoggedIn(context) || !context.mounted) return;
+    await Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => const ProjectFormPage(),
-      ),
-    );
-  }
-
-  void _openSkillForm(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SkillFormPage()),
-    );
-  }
-
-  void _openExperienceForm(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ExperienceFormPage()),
+      MaterialPageRoute(builder: (_) => const ProjectFormPage()),
     );
   }
 
@@ -39,41 +27,32 @@ class LeftDrawer extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary,
             ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'My Portfolio',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'My Portfolio',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Explore personal projects and experiences!',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Explore personal projects and experiences!',
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ],
             ),
           ),
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text('Home'),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MyHomePage(),
-                ),
-              );
-            },
+            onTap: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (_) => const MyHomePage()),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.add_circle_outline),
@@ -83,12 +62,41 @@ class LeftDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.star_outline),
             title: const Text('Skill'),
-            onTap: () => _openSkillForm(context),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SkillFormPage()),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.work_outline),
             title: const Text('Experience'),
-            onTap: () => _openExperienceForm(context),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ExperienceFormPage()),
+            ),
+          ),
+          Consumer<AuthState>(
+            builder: (context, authState, _) {
+              if (!authState.isLoggedIn) {
+                return ListTile(
+                  leading: const Icon(Icons.login),
+                  title: const Text('Login'),
+                  onTap: () => ensureLoggedIn(context),
+                );
+              }
+              return ListTile(
+                leading: const Icon(Icons.logout),
+                title: const Text('Logout'),
+                onTap: () async {
+                  await authState.logout();
+                  if (!context.mounted) return;
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Logout berhasil.')),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
